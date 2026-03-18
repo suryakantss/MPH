@@ -1,25 +1,25 @@
 # Eclipse
-.metadata
-bin/
-tmp/
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
-.recommenders/
+*/.metadata
+*/bin/
+*/tmp/
+*/*.tmp
+*/*.bak
+*/*.swp
+*/*~.nib
+*/local.properties
+*/.settings/
+*/.loadpath
+*/.recommenders/
 # External tool builders
-.externalToolBuilders/
+*/.externalToolBuilders/
 # Locally stored "Eclipse launch configurations"
-*.launch
+*/*.launch
 # Annotation Processing
-.apt_generated/
+*/.apt_generated/
 # STS (Spring Tool Suite)
-.springBeans
+*/.springBeans
 # Maven build artifacts
-/target/
+*/target/
 
 
 # Compiled class file
