@@ -1,0 +1,42 @@
+-- Create database
+CREATE DATABASE tomcat_security;
+
+USE tomcat_security;
+
+-- Create users table
+CREATE TABLE users (
+    username VARCHAR(50) NOT NULL PRIMARY KEY,
+    password VARCHAR(100) NOT NULL,
+    full_name VARCHAR(100),
+    email VARCHAR(100)
+);
+
+-- Create user roles table
+CREATE TABLE user_roles (
+    username VARCHAR(50) NOT NULL,
+    role_name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (username, role_name),
+    FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
+);
+
+-- Insert sample users 
+INSERT INTO users (username, password, full_name, email) VALUES
+('admin', 'admin123', 'Administrator', 'admin@example.com'),
+('John', '123', 'John Doe', 'john@mphasis.com'),
+('Jane', '123', 'Jane Smith', 'jane@mphasis.com');
+
+
+-- Assign roles
+INSERT INTO user_roles (username, role_name) VALUES
+('admin', 'admin'),
+('admin', 'manager-gui'),
+('John', 'admin'),
+('Jane', 'dev');
+
+
+
+
+
+
+
+
