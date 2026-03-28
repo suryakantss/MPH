@@ -1,0 +1,96 @@
+@Bean
+	public DriverManagerDataSource driverManagerDataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setUrl("jdbc:mysql://localhost:3306/citius");
+		ds.setUsername("root");
+		ds.setPassword("root");
+		return ds;
+	}
+
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		jdbcTemplate.setDataSource(driverManagerDataSource());
+		return jdbcTemplate;
+
+	}
+	
+package com.mphasis.secondspringapp.config;
+
+import javax.sql.DataSource;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import com.mphasis.secondspringapp.service.EmailConfig;
+import com.mphasis.secondspringapp.service.EmailService;
+import com.mphasis.secondspringapp.service.OrderService;
+
+@Configuration
+@ComponentScan(basePackages = { "com.mphasis.secondspringapp" })
+@EnableTransactionManagement
+@EnableAspectJAutoProxy
+public class SpringConfig {
+
+	// @Bean
+	// @Scope("singleton")
+//	public GreetService greetService() {
+//		return new GreetService();
+//	}
+
+	@Bean
+	@Scope("singleton")
+	public EmailConfig emailConfig() {
+		EmailConfig ec = new EmailConfig();
+		ec.setIp("192.168.12.2");
+		ec.setToken("HYU7898@#");
+		return ec;
+	}
+
+	@Bean
+	@Scope("singleton")
+	public EmailService emailService() {
+		EmailService es = new EmailService();
+		es.setEmailConfig(emailConfig());
+		return es;
+	}
+
+	@Bean
+	@Scope("singleton")
+	public OrderService orderService() {
+		return new OrderService(emailService());
+	}
+
+	@Bean
+	public DriverManagerDataSource driverManagerDataSource() {
+		DriverManagerDataSource ds = new DriverManagerDataSource();
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
+		ds.setUrl("jdbc:mysql://localhost:3306/springdb");
+		ds.setUsername("root");
+		ds.setPassword("root");
+		return ds;
+	}
+
+	@Bean
+	public JdbcTemplate jdbcTemplate() {
+		JdbcTemplate jdbcTemplate = new JdbcTemplate();
+		jdbcTemplate.setDataSource(driverManagerDataSource());
+		return jdbcTemplate;
+
+	}
+	@Bean
+	public PlatformTransactionManager transactionManager(DataSource dataSource) {
+	    return new DataSourceTransactionManager(dataSource);
+	}
+}
+
+

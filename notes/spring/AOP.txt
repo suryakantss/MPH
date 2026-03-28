@@ -1,0 +1,62 @@
+AOP. Spring 
+
+@Aspect
+Aspect Oriented Programming with Spring
+AOP Concepts
+Aspect: A modularization of a concern that cuts across multiple classes.
+Join point: A point during the execution of a program, such as the execution of a method 
+Advice: Action taken by an aspect at a particular join point. 
+Pointcut: A predicate that matches join points.
+
+@EnableAspectJAutoProxy
+<aop:aspectj-autoproxy/>
+
+@Before("execution(* com.springaop.OrderService.placeOrder(..))")
+@After("execution(* com.springaop.OrderService.placeOrder(..))")
+@Around("execution(* com.springaop.OrderService.placeOrder(..))")
+
+
+
+@Component
+@Aspect
+public class LoggingService {
+
+//	@Before("execution(* com.globant.springaop.OrderService.placeOrder(..))")
+	public void logBefore() {
+		System.out.println("Before --> logging..." + LocalDateTime.now());
+	}
+
+//	@After("execution(* com.globant.springaop.OrderService.shipOrder(..))")
+	public void logAfter() {
+		System.out.println("After --> logging..." + LocalDateTime.now());
+	}
+
+//	@Around("execution(* com.globant.springaop.OrderService.placeOrder(..))")
+	public void logaround(ProceedingJoinPoint pjp) throws Throwable {
+		System.out.println("Before --> logging..." + LocalDateTime.now());
+		Object result = pjp.proceed();
+		System.out.println("After... Result..." + result);
+
+	}
+
+@AfterReturning(value = "execution(* com.globant.*.*.placeOrder(..))", returning = "result")
+	public void logret(JoinPoint jp, Object result) {
+
+		System.out.println(jp + "..Returning....." + result);
+	}
+
+}
+
+<dependency>
+<groupId>aspectj</groupId>
+<artifactId>aspectjweaver</artifactId>
+<version>1.5.4</version>
+</dependency>
+
+
+<dependency>
+<groupId>org.apache.derby</groupId>
+<artifactId>derby</artifactId>
+<version>10.14.1.0</version>
+</dependency>
+

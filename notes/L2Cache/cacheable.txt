@@ -1,7 +1,0 @@
-@Entity
-@Table(name = "contacts")
-@Cacheable
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Contact {
-.......
-}
